@@ -102,29 +102,6 @@ header {
     color: rgb(20,20,20);
 }
 
-#avatar
-{
-    position: absolute;
-    top: 5px;
-    left: 6px;
-
-    height: 40px;
-
-    opacity: 0;
-    border-radius: 3px;
-
-    filter:         drop-shadow(2px 2px 7px rgba(0,0,0,0.4));
-    -webkit-filter: drop-shadow(2px 2px 7px rgba(0,0,0,0.4));
-    -moz-filter:    drop-shadow(2px 2px 7px rgba(0,0,0,0.4));
-    -ms-filter:     drop-shadow(2px 2px 7px rgba(0,0,0,0.4));
-    -o-filter:      drop-shadow(2px 2px 7px rgba(0,0,0,0.4));
-
-}
-
-#avatar:hover {
-    opacity: 1;
-}
-
 .me, .me-blur {
     opacity: 0;
 
@@ -133,7 +110,7 @@ header {
     padding-top: 40%;
 
     background-color: black;
-    background-image: url('../image/asset/bg.jpg');
+    background-image: url('../image/bg.jpg');
     background-size: cover;
     background-position: right center;
     background-repeat: no-repeat;
@@ -150,7 +127,7 @@ header {
     
     position: absolute;
     top: 0;
-    background-image: url('../image/asset/bg_bl.jpg');
+    background-image: url('../image/bg_bl.jpg');
 
     transition: all 50ms linear;
     -webkit-transition: all 50ms linear;
