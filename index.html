@@ -7,6 +7,11 @@
   <style>
     /* meta */
 
+    * {
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
     html, body {
       width: 100%;
       height: 100%;
@@ -31,6 +36,8 @@
       flex-direction: column;
       justify-content: flex-end;
     }
+
+    /* background */
 
     #background {
       position: absolute;
@@ -124,6 +131,7 @@
 
       --offset: 0%;
       transform: translateX(var(--offset));
+      transition: 0.3s transform;
     }
 
     .word-2 svg:nth-child(1) {
@@ -255,21 +263,10 @@
           NUM_SVG_CLONE = 30,
           MIN_OFFSET_BOUND = 1, MAX_OFFSET_BOUND = 12;
 
-    window.addEventListener("DOMContentLoaded", () => {
+    function randomize() {
       // Random seed for background
       const noiseEl = document.getElementById("noise");
       noiseEl.setAttribute("seed", Math.floor(Math.random() * 60));
-      const backgroundEl = document.getElementById("background");
-      backgroundEl.style.opacity = 1;
-
-      // Duplicate the first row
-      const heroEl = document.getElementById("hero");
-      const baseRowEl = heroEl.querySelector(".row:first-child");
-
-      for (let i = 0; i < NUM_ROW_CLONE; i++) {
-        const cloneRowEl = baseRowEl.cloneNode(true);
-        heroEl.insertBefore(cloneRowEl, baseRowEl);
-      }
 
       // Glitch effect for all .word-2 svgs
       for (const divEl of document.querySelectorAll(".word-2")) {
@@ -302,6 +299,38 @@
           childrenEls[i] ?? divEl.appendChild(sliceSVGEl);
         }
       }
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      // Duplicate the first row
+      const heroEl = document.getElementById("hero");
+      const baseRowEl = heroEl.querySelector(".row:first-child");
+
+      for (let i = 0; i < NUM_ROW_CLONE; i++) {
+        const cloneRowEl = baseRowEl.cloneNode(true);
+        heroEl.insertBefore(cloneRowEl, baseRowEl);
+      }
+
+      // Initial randomization
+      requestAnimationFrame(randomize);
+
+      // Subsequent randomization
+      const backgroundEl = document.getElementById("background");
+      backgroundEl.addEventListener("click", () => {
+        requestAnimationFrame(() => {
+          backgroundEl.style.opacity = 0;
+
+          const callback = () => {
+            backgroundEl.removeEventListener("transitionend", callback);
+
+            requestAnimationFrame(() => {
+              randomize();
+              backgroundEl.style.opacity = 1;
+            });
+          }
+          backgroundEl.addEventListener("transitionend", callback);
+        });
+      });
     });
   </script>
 </body>
