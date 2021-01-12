@@ -124,7 +124,6 @@
 
       --offset: 0%;
       transform: translateX(var(--offset));
-      transition: transform ease-in-out 6s;
     }
 
     .word-2 svg:nth-child(1) {
@@ -273,51 +272,36 @@
       }
 
       // Glitch effect for all .word-2 svgs
-      const word2Els = document.querySelectorAll(".word-2");
+      for (const divEl of document.querySelectorAll(".word-2")) {
+        const childrenEls = divEl.children;
 
-      function randomize(divEls = word2Els) {
-        for (const divEl of divEls) {
-          const childrenEls = divEl.children;
+        const baseSVGEl = childrenEls[0];
+        baseSVGEl.style.setProperty("--mask-start-start", `0%`);
+        baseSVGEl.style.setProperty("--mask-start-end", `${SLICE_START}%`);
+        baseSVGEl.style.setProperty("--mask-end-start", `${SLICE_END}%`);
+        baseSVGEl.style.setProperty("--mask-end-end", `100%`);
 
-          const baseSVGEl = childrenEls[0];
-          baseSVGEl.style.setProperty("--mask-start-start", `0%`);
-          baseSVGEl.style.setProperty("--mask-start-end", `${SLICE_START}%`);
-          baseSVGEl.style.setProperty("--mask-end-start", `${SLICE_END}%`);
-          baseSVGEl.style.setProperty("--mask-end-end", `100%`);
+        const offsetBound = Math.random() * (MAX_OFFSET_BOUND - MIN_OFFSET_BOUND) + MIN_OFFSET_BOUND;
+        const middlePoint = (SLICE_START + SLICE_END) / 2;
+        const eachSliceSize = (SLICE_END - SLICE_START) / (NUM_SVG_CLONE * 2);
 
-          const offsetBound = Math.random() * (MAX_OFFSET_BOUND - MIN_OFFSET_BOUND) + MIN_OFFSET_BOUND;
-          const middlePoint = (SLICE_START + SLICE_END) / 2;
-          const eachSliceSize = (SLICE_END - SLICE_START) / (NUM_SVG_CLONE * 2);
+        for (let i = 1; i <= NUM_SVG_CLONE; i++) {
+          const offset = offsetBound / NUM_SVG_CLONE * i;
 
-          for (let i = 1; i <= NUM_SVG_CLONE; i++) {
-            const offset = offsetBound / NUM_SVG_CLONE * i;
+          const maskStartStart = SLICE_START + eachSliceSize * (i - 1);
+          const maskStartEnd = SLICE_START + eachSliceSize * i;
+          const maskEndStart = middlePoint + (middlePoint - maskStartEnd);
+          const maskEndEnd = middlePoint + (middlePoint - maskStartStart);
 
-            const maskStartStart = SLICE_START + eachSliceSize * (i - 1);
-            const maskStartEnd = SLICE_START + eachSliceSize * i;
-            const maskEndStart = middlePoint + (middlePoint - maskStartEnd);
-            const maskEndEnd = middlePoint + (middlePoint - maskStartStart);
-
-            const sliceSVGEl = childrenEls[i] ?? baseSVGEl.cloneNode(true);
-            sliceSVGEl.style.setProperty("--offset", `${offset}%`);
-            sliceSVGEl.style.setProperty("--mask-start-start", `${maskStartStart - 0.1}%`);
-            sliceSVGEl.style.setProperty("--mask-start-end", `${maskStartEnd + 0.1}%`);
-            sliceSVGEl.style.setProperty("--mask-end-start", `${maskEndStart - 0.1}%`);
-            sliceSVGEl.style.setProperty("--mask-end-end", `${maskEndEnd + 0.1}%`);
-            childrenEls[i] ?? divEl.appendChild(sliceSVGEl);
-          }
+          const sliceSVGEl = childrenEls[i] ?? baseSVGEl.cloneNode(true);
+          sliceSVGEl.style.setProperty("--offset", `${offset}%`);
+          sliceSVGEl.style.setProperty("--mask-start-start", `${maskStartStart - 0.1}%`);
+          sliceSVGEl.style.setProperty("--mask-start-end", `${maskStartEnd + 0.1}%`);
+          sliceSVGEl.style.setProperty("--mask-end-start", `${maskEndStart - 0.1}%`);
+          sliceSVGEl.style.setProperty("--mask-end-end", `${maskEndEnd + 0.1}%`);
+          childrenEls[i] ?? divEl.appendChild(sliceSVGEl);
         }
       }
-      randomize();
-
-      function loop() {
-        const length = ~~(Math.random() * 4 + 1); // 1 2 3 4
-        const divEls = [...Array(length)].map(() => word2Els[~~(Math.random() * word2Els.length)]);
-        requestAnimationFrame(() => randomize(divEls));
-
-        const next = ~~(Math.random() * 10000 + 1000); // 1s ~ 10s
-        setTimeout(loop, next);
-      }
-      loop();
     });
   </script>
 </body>
