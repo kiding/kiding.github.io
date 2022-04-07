@@ -161,6 +161,164 @@
       margin: 0;
     }
 
+    /* #circle */
+
+    #circle-background, #circle {
+      --radius: 14vw;
+
+      position: fixed;
+      left: 110vh;
+      bottom: 25vh;
+
+      max-width: 24vh;
+      max-height: 24vh;
+
+      width: calc(2 * var(--radius));
+      height: calc(2 * var(--radius));
+
+      mix-blend-mode: difference;
+    }
+
+    #circle-background {
+      z-index: -1;
+
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    #circle-background:before, #circle-background:after {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      content: '';
+      border-radius: var(--radius);
+      box-shadow: calc(0.05 * var(--radius)) calc(0.1 * var(--radius)) calc(0.3 * var(--radius)) #2d2d2d;
+    }
+
+    #circle-background:before {
+      transform: rotate(-5deg);
+    }
+
+    #circle-background:after {
+      transform: rotate(5deg);
+    }
+
+    @keyframes circle {
+      0% { transform: scale(0.85) rotate(0deg); }
+      100% { transform: scale(0.85) rotate(360deg); }
+    }
+
+    #circle {
+      z-index: 4;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      animation-name: circle;
+      animation-duration: 30s;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+    }
+
+    #circle:hover {
+      cursor: pointer;
+      animation-play-state: paused;
+    }
+
+    #circle span {
+      font-family: Menlo, monospace;
+      font-weight: 800;
+      color: #fff;
+      -webkit-font-smoothing: antialiased;
+
+      font-size: 4.1vh;
+      text-align: center;
+      text-decoration: none;
+
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+
+      --tick: calc(360deg / 16);
+    }
+
+    #circle span:nth-child(1) {
+      transform: rotate(calc(1 * var(--tick)));
+    }
+
+    #circle span:nth-child(2) {
+      transform: rotate(calc(2 * var(--tick)));
+    }
+
+    #circle span:nth-child(3) {
+      transform: rotate(calc(3 * var(--tick)));
+    }
+
+    #circle span:nth-child(4) {
+      transform: rotate(calc(4 * var(--tick)));
+    }
+
+    #circle span:nth-child(5) {
+      transform: rotate(calc(5 * var(--tick)));
+    }
+
+    #circle span:nth-child(6) {
+      transform: rotate(calc(6 * var(--tick)));
+    }
+
+    #circle span:nth-child(7) {
+      transform: rotate(calc(7 * var(--tick)));
+    }
+
+    #circle span:nth-child(8) {
+      transform: rotate(calc(8 * var(--tick)));
+    }
+
+    #circle span:nth-child(9) {
+      transform: rotate(calc(9 * var(--tick)));
+    }
+
+    #circle span:nth-child(10) {
+      transform: rotate(calc(10 * var(--tick)));
+    }
+
+    #circle span:nth-child(11) {
+      transform: rotate(calc(11 * var(--tick)));
+    }
+
+    #circle span:nth-child(12) {
+      transform: rotate(calc(12 * var(--tick)));
+    }
+
+    #circle span:nth-child(13) {
+      transform: rotate(calc(13 * var(--tick)));
+    }
+
+    #circle span:nth-child(14) {
+      transform: rotate(calc(14 * var(--tick)));
+    }
+
+    #circle span:nth-child(15) {
+      transform: rotate(calc(15 * var(--tick)));
+    }
+
+    #circle span:nth-child(16) {
+      transform: rotate(calc(16 * var(--tick)));
+    }
+
+    /* medium layout */
+    @media (max-width: 135vh) {
+      .word {
+        display: block;
+      }
+      #circle-background, #circle {
+        left: 50vh;
+      }
+    }
+
     /* narrow layout */
     @media (max-width: 78vh) {
       .word-1 svg, .word-2 svg, .word-4 svg {
@@ -169,12 +327,12 @@
       .word-3 svg {
         width: calc(100% - 20vw);
       }
-    }
-
-    /* medium layout */
-    @media (max-width: 135vh) {
-      .word {
-        display: block;
+      #circle-background, #circle {
+        left: calc(100% - 34vw);
+        bottom: 21vh;
+      }
+      #circle span {
+        font-size: 5vw;
       }
     }
   </style>
@@ -252,6 +410,26 @@
         <p>김동성 ᛫ Dongsung Kim</p>
         <p><a href="mailto:kiding@me.com">Mail</a> ᛫ <a href="https://twitter.com/kid1ng">Twitter</a> ᛫ <a href="https://github.com/kiding">GitHub</a> ᛫ <a href="https://kiding.medium.com">Medium</a> ᛫ <a href="https://www.linkedin.com/in/kiding/">LinkedIn</a></p>
     </section>
+
+    <section id="circle-background"></section>
+    <section id="circle">
+      <span>H</span>
+      <span>I</span>
+      <span>R</span>
+      <span>E</span>
+      <span>&nbsp;</span>
+      <span>M</span>
+      <span>E</span>
+      <span>&nbsp;</span>
+      <span>H</span>
+      <span>I</span>
+      <span>R</span>
+      <span>E</span>
+      <span>&nbsp;</span>
+      <span>M</span>
+      <span>E</span>
+      <span>&nbsp;</span>
+    </section>
   </main>
 
   <script>
@@ -300,6 +478,9 @@
     }
 
     window.addEventListener("DOMContentLoaded", () => {
+      // Hire me
+      circle.addEventListener('click', () => location.href = 'https://github.com/kiding/kiding.github.io/releases/tag/resume');
+
       // Duplicate the first row
       const heroEl = document.getElementById("hero");
       const baseRowEl = heroEl.querySelector(".row:first-child");
