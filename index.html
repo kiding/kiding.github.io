@@ -136,9 +136,9 @@
       position: relative;
     }
 
-    /* #info */
+    /* .info */
 
-    #info {
+    .info {
       font-family: system-ui, sans-serif;
       font-weight: 600;
       color: #fff;
@@ -149,21 +149,27 @@
       padding-left: 0.5em;
       margin-top: 1em;
 
-      z-index: 3;
+      z-index: 4;
       mix-blend-mode: difference;
     }
 
-    #info a, #info a:visited {
+    .info a, .info a:visited {
       color: #fff;
     }
 
-    #info p {
+    .info p {
+      margin: 0;
+    }
+
+    .circle.info {
+      border: 0;
+      padding: 0;
       margin: 0;
     }
 
     /* #circle */
 
-    #circle-background, #circle {
+    .circle {
       --radius: 14vw;
 
       position: fixed;
@@ -175,6 +181,11 @@
 
       width: calc(2 * var(--radius));
       height: calc(2 * var(--radius));
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
 
       mix-blend-mode: difference;
     }
@@ -208,12 +219,8 @@
       100% { transform: scale(0.85) rotate(360deg); }
     }
 
-    #circle {
-      z-index: 4;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    #circle-border {
+      z-index: 3;
 
       animation-name: circle;
       animation-duration: 30s;
@@ -221,12 +228,7 @@
       animation-timing-function: linear;
     }
 
-    #circle:hover {
-      cursor: pointer;
-      animation-play-state: paused;
-    }
-
-    #circle span {
+    #circle-border span {
       font-family: Menlo, monospace;
       font-weight: 800;
       color: #fff;
@@ -245,67 +247,67 @@
       --tick: calc(360deg / 16);
     }
 
-    #circle span:nth-child(1) {
+    #circle-border span:nth-child(1) {
       transform: rotate(calc(1 * var(--tick)));
     }
 
-    #circle span:nth-child(2) {
+    #circle-border span:nth-child(2) {
       transform: rotate(calc(2 * var(--tick)));
     }
 
-    #circle span:nth-child(3) {
+    #circle-border span:nth-child(3) {
       transform: rotate(calc(3 * var(--tick)));
     }
 
-    #circle span:nth-child(4) {
+    #circle-border span:nth-child(4) {
       transform: rotate(calc(4 * var(--tick)));
     }
 
-    #circle span:nth-child(5) {
+    #circle-border span:nth-child(5) {
       transform: rotate(calc(5 * var(--tick)));
     }
 
-    #circle span:nth-child(6) {
+    #circle-border span:nth-child(6) {
       transform: rotate(calc(6 * var(--tick)));
     }
 
-    #circle span:nth-child(7) {
+    #circle-border span:nth-child(7) {
       transform: rotate(calc(7 * var(--tick)));
     }
 
-    #circle span:nth-child(8) {
+    #circle-border span:nth-child(8) {
       transform: rotate(calc(8 * var(--tick)));
     }
 
-    #circle span:nth-child(9) {
+    #circle-border span:nth-child(9) {
       transform: rotate(calc(9 * var(--tick)));
     }
 
-    #circle span:nth-child(10) {
+    #circle-border span:nth-child(10) {
       transform: rotate(calc(10 * var(--tick)));
     }
 
-    #circle span:nth-child(11) {
+    #circle-border span:nth-child(11) {
       transform: rotate(calc(11 * var(--tick)));
     }
 
-    #circle span:nth-child(12) {
+    #circle-border span:nth-child(12) {
       transform: rotate(calc(12 * var(--tick)));
     }
 
-    #circle span:nth-child(13) {
+    #circle-border span:nth-child(13) {
       transform: rotate(calc(13 * var(--tick)));
     }
 
-    #circle span:nth-child(14) {
+    #circle-border span:nth-child(14) {
       transform: rotate(calc(14 * var(--tick)));
     }
 
-    #circle span:nth-child(15) {
+    #circle-border span:nth-child(15) {
       transform: rotate(calc(15 * var(--tick)));
     }
 
-    #circle span:nth-child(16) {
+    #circle-border span:nth-child(16) {
       transform: rotate(calc(16 * var(--tick)));
     }
 
@@ -314,7 +316,7 @@
       .word {
         display: block;
       }
-      #circle-background, #circle {
+      .circle {
         left: 50vh;
       }
     }
@@ -327,11 +329,11 @@
       .word-3 svg {
         width: calc(100% - 20vw);
       }
-      #circle-background, #circle {
+      .circle {
         left: calc(100% - 34vw);
         bottom: 21vh;
       }
-      #circle span {
+      #circle-border span {
         font-size: 5vw;
       }
     }
@@ -406,13 +408,13 @@
       </div>
     </section>
 
-    <section id="info">
+    <section class="info">
         <p>김동성 ᛫ Dongsung Kim</p>
-        <p><a href="mailto:kiding@me.com">Mail</a> ᛫ <a href="https://twitter.com/kid1ng">Twitter</a> ᛫ <a href="https://github.com/kiding">GitHub</a> ᛫ <a href="https://kiding.medium.com">Medium</a> ᛫ <a href="https://www.linkedin.com/in/kiding/">LinkedIn</a></p>
+        <p><a href="mailto:kiding@me.com">Mail</a> ᛫ <a href="https://twitter.com/kid1ng">Twitter</a> ᛫ <a href="https://github.com/kiding">GitHub</a> ᛫ <a href="https://kiding.medium.com">Medium</a></p>
     </section>
 
-    <section id="circle-background"></section>
-    <section id="circle">
+    <section class="circle" id="circle-background"></section>
+    <section class="circle" id="circle-border">
       <span>H</span>
       <span>I</span>
       <span>R</span>
@@ -429,6 +431,10 @@
       <span>M</span>
       <span>E</span>
       <span>&nbsp;</span>
+    </section>
+    <section class="circle info">
+      <a href="https://www.linkedin.com/in/kiding/">LinkedIn</a>
+      <a href="https://github.com/kiding/kiding.github.io/releases/tag/resume">Resume</a>
     </section>
   </main>
 
@@ -478,9 +484,6 @@
     }
 
     window.addEventListener("DOMContentLoaded", () => {
-      // Hire me
-      circle.addEventListener('click', () => location.href = 'https://github.com/kiding/kiding.github.io/releases/tag/resume');
-
       // Duplicate the first row
       const heroEl = document.getElementById("hero");
       const baseRowEl = heroEl.querySelector(".row:first-child");
