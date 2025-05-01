@@ -2,52 +2,44 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>kidi.ng</title>
-  <meta property="og:description" content="make break software" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+  <title>make break software ᛫ Dongsung (Donny) Kim</title>
+  <meta property="og:type" content="profile" />
+  <meta property="profile:first_name" content="Dongsung (Donny)" />
+  <meta property="profile:last_name" content="Kim" />
+  <meta property="profile:username" content="kiding" />
+  <meta property="og:url" content="https://kidi.ng" />
   <style>
     /* meta */
 
-    * {
-      -webkit-user-select: none;
-      user-select: none;
-    }
-
     html, body {
-      width: 100%;
-      height: 100%;
       margin: 0;
       padding: 0;
-      overflow: hidden;
-    }
-    body {
-      position: fixed;
+
       background: #000;
+      font-family: system-ui, sans-serif;
+      font-weight: 600;
+      line-height: 1.5;
+      color: #fff;
     }
 
-    main {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
+    a, a:visited {
+      color: #fff;
+    }
 
-      box-sizing: border-box;
-      padding: min(5vh, 5%);
-
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
+    h1, p {
+      margin: 0;
+      text-wrap: nowrap;
     }
 
     /* background */
 
     #background {
-      position: absolute;
+      position: fixed;
       top: 0;
+      right: 0;
+      bottom: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 2;
-
-      mix-blend-mode: difference;
 
       animation: 5s ease-in-out 0s infinite alternate both running flicker;
       transition: 0.3s opacity;
@@ -67,6 +59,42 @@
       }
     }
 
+    #background::after {
+      content: '';
+
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+
+      backdrop-filter: blur(1em);
+    }
+
+    /* cover */
+
+    :root {
+      --default-padding: min(5vh, 5%);
+      --safe-padding: calc(var(--default-padding) + env(safe-area-inset-top))
+                      calc(var(--default-padding) + env(safe-area-inset-right))
+                      calc(var(--default-padding) + env(safe-area-inset-bottom))
+                      calc(var(--default-padding) + env(safe-area-inset-left));
+    }
+
+    #cover {
+      width: 100dvw;
+      height: 100dvh;
+
+      box-sizing: border-box;
+      padding: var(--safe-padding);
+
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+
+      mix-blend-mode: difference;
+    }
+
     /* hero */
 
     .word {
@@ -77,7 +105,7 @@
     .word svg {
       fill: transparent;
       stroke: #fff;
-      padding: 0.2vh;
+      padding: 0.5vh 0;
 
       z-index: 1;
       overflow: visible;
@@ -85,19 +113,20 @@
 
     .word-1 svg {
       width: 60vh;
-      stroke-width: 0.4;
+      stroke-dasharray: 10 2;
+      stroke-width: 0.8;
     }
     .word-2 svg {
       width: 60vh;
-      stroke-width: 0.5;
+      stroke-width: 0.8;
     }
     .word-3 svg {
       width: 44vh;
-      stroke-width: 0.4;
+      stroke-width: 0.8;
     }
     .word-4 svg {
       width: 60vh;
-      stroke-width: 0.5;
+      stroke-width: 1.0;
     }
 
     /* hero: mask: word 2 */
@@ -111,17 +140,18 @@
       --mask-start-end: 100%;
       --mask-end-start: 100%;
       --mask-end-end: 100%;
+      --mask-weight: 5%;
       --mask-value: linear-gradient(
         180deg,
         transparent 0%,
-        transparent calc(var(--mask-start-start) - 0.1%),
+        transparent calc(var(--mask-start-start) - var(--mask-weight)),
         black var(--mask-start-start),
         black var(--mask-start-end),
-        transparent calc(var(--mask-start-end) + 0.1%),
-        transparent calc(var(--mask-end-start) - 0.1%),
+        transparent calc(var(--mask-start-end) + var(--mask-weight)),
+        transparent calc(var(--mask-end-start) - var(--mask-weight)),
         black var(--mask-end-start),
         black var(--mask-end-end),
-        transparent calc(var(--mask-end-end) + 0.1%),
+        transparent calc(var(--mask-end-end) + var(--mask-weight)),
         transparent 100%
       );
       -webkit-mask-image: var(--mask-value);
@@ -136,190 +166,42 @@
       position: relative;
     }
 
-    /* .info */
+    /* contacts */
 
-    .info {
-      font-family: system-ui, sans-serif;
-      font-weight: 600;
-      color: #fff;
-      line-height: 1.5;
-      -webkit-font-smoothing: antialiased;
-
-      border-left: 0.5em solid #fff;
+    #contacts {
+      border-left: 0.3em solid #fff;
       padding-left: 0.5em;
       margin-top: 1em;
-
-      z-index: 4;
-      mix-blend-mode: difference;
+      overflow: scroll;
     }
 
-    .info a, .info a:visited {
-      color: #fff;
-    }
+    /* summary */
 
-    .info p {
-      margin: 0;
-    }
-
-    .circle.info {
-      border: 0;
-      padding: 0;
-      margin: 0;
-
-      mix-blend-mode: normal;
-    }
-
-    /* #circle */
-
-    .circle {
-      --radius: 14vw;
-
-      position: fixed;
-      left: 110vh;
-      bottom: 25vh;
-
-      max-width: 24vh;
-      max-height: 24vh;
-
-      width: calc(2 * var(--radius));
-      height: calc(2 * var(--radius));
+    #summary {
+      padding: var(--safe-padding);
+      padding-top: 0;
 
       display: flex;
-      align-items: center;
-      justify-content: center;
       flex-direction: column;
+    }
+
+    #summary section {
+      margin-top: var(--default-padding);
+      padding-left: 0.5em;
+      border-left: 0.3em solid #fff;
 
       mix-blend-mode: difference;
+      overflow: scroll;
     }
 
-    #circle-background {
-      z-index: -1;
-
-      border-radius: var(--radius);
-      background: #fff;
-    }
-
-    #circle-background:before, #circle-background:after {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      content: '';
-      border-radius: var(--radius);
-      box-shadow: calc(0.05 * var(--radius)) calc(0.1 * var(--radius)) calc(0.3 * var(--radius)) #2d2d2d;
-    }
-
-    #circle-background:before {
-      transform: rotate(-5deg);
-    }
-
-    #circle-background:after {
-      transform: rotate(5deg);
-    }
-
-    @keyframes circle {
-      0% { transform: scale(0.85) rotate(0deg); }
-      100% { transform: scale(0.85) rotate(360deg); }
-    }
-
-    #circle-border {
-      z-index: 3;
-
-      animation-name: circle;
-      animation-duration: 30s;
-      animation-iteration-count: infinite;
-      animation-timing-function: linear;
-    }
-
-    #circle-border span {
-      font-family: Menlo, monospace;
-      font-weight: 800;
-      color: #fff;
-      -webkit-font-smoothing: antialiased;
-
-      font-size: 4.1vh;
-      text-align: center;
-      text-decoration: none;
-
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-
-      --tick: calc(360deg / 16);
-    }
-
-    #circle-border span:nth-child(1) {
-      transform: rotate(calc(1 * var(--tick)));
-    }
-
-    #circle-border span:nth-child(2) {
-      transform: rotate(calc(2 * var(--tick)));
-    }
-
-    #circle-border span:nth-child(3) {
-      transform: rotate(calc(3 * var(--tick)));
-    }
-
-    #circle-border span:nth-child(4) {
-      transform: rotate(calc(4 * var(--tick)));
-    }
-
-    #circle-border span:nth-child(5) {
-      transform: rotate(calc(5 * var(--tick)));
-    }
-
-    #circle-border span:nth-child(6) {
-      transform: rotate(calc(6 * var(--tick)));
-    }
-
-    #circle-border span:nth-child(7) {
-      transform: rotate(calc(7 * var(--tick)));
-    }
-
-    #circle-border span:nth-child(8) {
-      transform: rotate(calc(8 * var(--tick)));
-    }
-
-    #circle-border span:nth-child(9) {
-      transform: rotate(calc(9 * var(--tick)));
-    }
-
-    #circle-border span:nth-child(10) {
-      transform: rotate(calc(10 * var(--tick)));
-    }
-
-    #circle-border span:nth-child(11) {
-      transform: rotate(calc(11 * var(--tick)));
-    }
-
-    #circle-border span:nth-child(12) {
-      transform: rotate(calc(12 * var(--tick)));
-    }
-
-    #circle-border span:nth-child(13) {
-      transform: rotate(calc(13 * var(--tick)));
-    }
-
-    #circle-border span:nth-child(14) {
-      transform: rotate(calc(14 * var(--tick)));
-    }
-
-    #circle-border span:nth-child(15) {
-      transform: rotate(calc(15 * var(--tick)));
-    }
-
-    #circle-border span:nth-child(16) {
-      transform: rotate(calc(16 * var(--tick)));
+    #summary section:first-child {
+      margin-top: 0;
     }
 
     /* medium layout */
     @media (max-width: 135vh) {
       .word {
         display: block;
-      }
-      .circle {
-        left: 50vh;
       }
     }
 
@@ -331,37 +213,30 @@
       .word-3 svg {
         width: calc(100% - 20vw);
       }
-      .circle {
-        left: calc(100% - 34vw);
-        bottom: 21vh;
-      }
-      #circle-border span {
-        font-size: 5vw;
-      }
     }
   </style>
 </head>
 <body>
-  <main>
-    <section id="background">
-      <svg viewBox="0 0 10 10" preserveAspectRatio="none">
-        <defs>
-          <filter id="filter" width="1" height="1" x="0" y="0">
-            <feTurbulence id="noise" type="fractalNoise" numOctaves="2" baseFrequency="0.2" seed="10" />
-            <feComposite operator="arithmetic" k1="13" k2="0.2" k3="-3" /> 
-            <feComponentTransfer>
-              <feFuncR type="gamma" amplitude="6" exponent="2" offset="0"></feFuncR>
-              <feFuncG type="gamma" amplitude="6" exponent="2" offset="0"></feFuncG>
-              <feFuncB type="gamma" amplitude="6" exponent="2" offset="0"></feFuncB>
-            </feComponentTransfer>
-          </filter>
-        </defs>  
-        <g>
-          <rect style="filter:url(#filter)" width="10" height="10" x="0" y="0" />
-        </g>
-      </svg>
-    </section>
+  <section id="background">
+    <svg viewBox="0 0 10 10" preserveAspectRatio="none">
+      <defs>
+        <filter id="filter" width="1" height="1" x="0" y="0">
+          <feTurbulence id="noise" type="fractalNoise" numOctaves="2" baseFrequency="0.2" seed="10" />
+          <feComposite operator="arithmetic" k1="13" k2="0.2" k3="-3" /> 
+          <feComponentTransfer>
+            <feFuncR type="gamma" amplitude="6" exponent="2" offset="0"></feFuncR>
+            <feFuncG type="gamma" amplitude="6" exponent="2" offset="0"></feFuncG>
+            <feFuncB type="gamma" amplitude="6" exponent="2" offset="0"></feFuncB>
+          </feComponentTransfer>
+        </filter>
+      </defs>  
+      <g>
+        <rect style="filter:url(#filter)" width="10" height="10" x="0" y="0" />
+      </g>
+    </svg>
+  </section>
 
+  <section id="cover">
     <section id="hero">
       <div class="row">
         <div class="word word-1">
@@ -410,40 +285,47 @@
       </div>
     </section>
 
-    <section class="info">
-        <p>김동성 ᛫ Dongsung (Donny) Kim</p>
-        <p><a href="mailto:kiding@me.com">Mail</a> ᛫ <a href="https://bsky.app/profile/kiding.bsky.social">Bluesky</a> ᛫ <a href="https://twitter.com/kid1ng">Twitter</a> ᛫ <a href="https://github.com/kiding">GitHub</a> ᛫ <a href="https://kiding.medium.com">Medium</a> ᛫ <a href="https://www.linkedin.com/in/kiding/">LinkedIn</a></p>
+    <section id="contacts">
+        <p>김동성 ᛫ Dongsung (Donny) Kim ᛫ 🎗️🏳️‍⚧️🕯️</p>
+        <p><a href="https://bsky.app/profile/kiding.bsky.social">Bluesky</a> ᛫ <a href="https://twitter.com/kid1ng">Twitter</a> ᛫ <a href="https://github.com/kiding">GitHub</a> ᛫ <a href="https://kiding.medium.com">Medium</a> ᛫ <a href="https://www.linkedin.com/in/kiding/">LinkedIn</a></p>
+    </section>
+  </section>
+
+  <section id="summary">
+    <section>
+      <h1>Work Experience</h1>
+      <p>2024 - Present ᛫ <a href="https://securityoffice.io">Security Office</a> ᛫ Cybersecurity Expert</p>
+      <p>2022 - 2024 ᛫ <a href="https://truesec.com">Truesec</a> / Säkerhetskontoret ᛫ IT-Security Expert</p>
+      <p>2021 - 2022 ᛫ <a href="https://zent.kr">Z Enterprise</a> ᛫ Software Engineer</p>
+      <p>2019 - 2020 ᛫ <a href="https://ridicorp.com">RIDI Corp</a> ᛫ Software Engineer / Security Advisor</p>
+      <p>2018 - 2019 ᛫ <a href="https://move.is">Move, Inc</a> ᛫ Software Engineer</p>
+      <p>2016 - 2018 ᛫ <a href="https://hit.skku.edu">H.I.T. (Hackers In inTrusion) Lab</a> ᛫ Student Researcher</p>
+      <p>2012 - 2014 ᛫ Shakr Media ᛫ Engineer</p>
+      <p>2012 - 2012 ᛫ <a href="https://ag.co.kr">Ahn-graphics, Ltd.</a> ᛫ Engineering Intern</p>
     </section>
 
-    <section class="circle" id="circle-background"></section>
-    <section class="circle" id="circle-border">
-      <span>H</span>
-      <span>E</span>
-      <span>L</span>
-      <span>L</span>
-      <span>O</span>
-      <span>&nbsp;</span>
-      <span>&nbsp;</span>
-      <span>&nbsp;</span>
-      <span>H</span>
-      <span>E</span>
-      <span>L</span>
-      <span>L</span>
-      <span>O</span>
+    <section>
+      <h1>Security Research</h1>
+      <p>2023 ᛫ <a href="https://youtu.be/98hacQ1zpgQ">DEF CON 31</a> ᛫ Your Clocks Have Ears! Timing-Based Browser-Based Local Network Port Scanner</p>
+      <p>2022 ᛫ <a href="https://youtu.be/bhthwXhGZDY">DEF CON 30</a> ᛫ The CSRF Resurrections! Starring the Unholy Trinity: Service Worker of PWA, SameSite of HTTP Cookie, and Fetch ᛫ CVE-2022-0117, CVE-2022-45410</p>
+      <p>2020 ᛫ <a href="https://kiding.medium.com/macos-ocsp-telemetry-explainer-and-mitigation-9bc243928f4c">macOS OCSP “telemetry”—Explainer and Mitigation with Noise</a></p>
+      <p>2018 ᛫ <a href="https://youtu.be/3IdgBwbOT-g">DEF CON 26</a> ᛫ Your Watch Can Watch You! Gear Up for the Broken Privilege Pitfalls in the Samsung Gear Smartwatch ᛫ CVE-2018-16262, CVE-2018-16263, CVE-2018-16264, CVE-2018-16265, CVE-2018-16266, CVE-2018-16267, CVE-2018-16268, CVE-2018-16269, CVE-2018-16270, CVE-2018-16271, CVE-2018-16272</p>
+      <p>2015 ᛫ <a href="https://support.apple.com/en-us/HT205033">Private Browsing History Leak in Apple Safari ᛫ </a>CVE-2015-3754</p>
     </section>
-    <section class="circle info">
-      <p>🎗️</p>
-      <p>🏳️‍⚧️</p>
-      <p>🕯️</p>
+
+    <section>
+      <h1>Software Development</h1>
+      <p>2022 - Present ᛫ <a href="https://github.com/kiding/SokIM">Sok Input Method</a></p>
+      <p>2014 - 2015 ᛫ <a href="http://beotsmusic.kiding.net">BeotsMusic</a></p>
+      <p>2008 - 2013 ᛫ <a href="https://web.archive.org/web/20130217024529/http://www.appleforum.com/application/55873-국내-음악-가사를-찾아주는-가사수작을-소개합니다.html">Lyrichand</a></p>
+      <p>2008 - 2011 ᛫ <a href="https://web.archive.org/web/20140724184136/http://www.appleforum.com/application/54905-자막도-넣어주는-아이팟-인코더-팟벗.html">PodBuddy</a></p>
     </section>
-  </main>
+  </section>
 
   <script>
-    const NUM_ROW_CLONE = 6;
-
     const SLICE_START = 40.0, SLICE_END = 78.9,
           NUM_SVG_CLONE = 30,
-          MIN_OFFSET_BOUND = 1, MAX_OFFSET_BOUND = 12;
+          MIN_OFFSET_BOUND = 3, MAX_OFFSET_BOUND = 10;
 
     function randomize() {
       // Random seed for background
@@ -483,37 +365,7 @@
       }
     }
 
-    window.addEventListener("DOMContentLoaded", () => {
-      // Duplicate the first row
-      const heroEl = document.getElementById("hero");
-      const baseRowEl = heroEl.querySelector(".row:first-child");
-
-      for (let i = 0; i < NUM_ROW_CLONE; i++) {
-        const cloneRowEl = baseRowEl.cloneNode(true);
-        heroEl.insertBefore(cloneRowEl, baseRowEl);
-      }
-
-      // Initial randomization
-      requestAnimationFrame(randomize);
-
-      // Subsequent randomization
-      const backgroundEl = document.getElementById("background");
-      backgroundEl.addEventListener("click", () => {
-        requestAnimationFrame(() => {
-          backgroundEl.style.opacity = 0;
-
-          const callback = () => {
-            backgroundEl.removeEventListener("transitionend", callback);
-
-            requestAnimationFrame(() => {
-              randomize();
-              backgroundEl.style.opacity = 1;
-            });
-          }
-          backgroundEl.addEventListener("transitionend", callback);
-        });
-      });
-    });
+    window.addEventListener("DOMContentLoaded", () => requestAnimationFrame(randomize));
   </script>
 </body>
 </html>
