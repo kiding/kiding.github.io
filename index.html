@@ -21,6 +21,16 @@
       font-weight: 600;
       line-height: 1.5;
       color: #fff;
+
+      width: 100dvw;
+      height: 100dvh;
+      overflow: hidden;
+
+      transform: translateZ(0);
+    }
+
+    body {
+      visibility: hidden;
     }
 
     a, a:visited {
@@ -35,14 +45,10 @@
     /* background */
 
     #background {
-      position: fixed;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
+      width: 100%;
+      height: 100%;
 
-      animation: 5s ease-in-out 0s infinite alternate both running flicker;
-      transition: 0.3s opacity;
+      animation: 10s linear infinite lava;
     }
 
     #background svg {
@@ -50,19 +56,22 @@
       height: 100%;
     }
 
-    @keyframes flicker {
+    @keyframes lava {
       0% {
-        filter: brightness(1) contrast(1);
+        filter: brightness(1) hue-rotate(0deg) saturate(100%);
+      }
+      50% {
+        filter: brightness(0.7) hue-rotate(180deg) saturate(200%);
       }
       100% {
-        filter: brightness(0.7) contrast(2.5);
+        filter: brightness(1) hue-rotate(360deg) saturate(100%);
       }
     }
 
     #background::after {
       content: '';
 
-      position: fixed;
+      position: absolute;
       top: 0;
       right: 0;
       bottom: 0;
@@ -71,22 +80,33 @@
       backdrop-filter: blur(1em);
     }
 
+    main {
+      width: 100%;
+      height: 100%;
+
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      overflow-x: hidden;
+      overflow-y: scroll;
+    }
+
     /* cover */
 
     :root {
-      --default-padding: min(5vh, 5%);
-      --safe-padding: calc(var(--default-padding) + env(safe-area-inset-top))
-                      calc(var(--default-padding) + env(safe-area-inset-right))
-                      calc(var(--default-padding) + env(safe-area-inset-bottom))
-                      calc(var(--default-padding) + env(safe-area-inset-left));
+      --default-padding: min(5svh, 5%);
     }
 
     #cover {
-      width: 100dvw;
-      height: 100dvh;
+      width: 100%;
+      height: 100%;
 
       box-sizing: border-box;
-      padding: var(--safe-padding);
+      padding: var(--default-padding)
+               calc(var(--default-padding) + env(safe-area-inset-right))
+               var(--default-padding)
+               calc(var(--default-padding) + env(safe-area-inset-left));
 
       display: flex;
       flex-direction: column;
@@ -105,27 +125,38 @@
     .word svg {
       fill: transparent;
       stroke: #fff;
-      padding: 0.5vh 0;
+      padding: 0.5lvh 0.2lvw;
 
       z-index: 1;
       overflow: visible;
     }
 
     .word-1 svg {
-      width: 60vh;
+      width: 565px;
       stroke-dasharray: 10 2;
       stroke-width: 0.8;
+
+      animation: 1s linear infinite stroke;
     }
+    @keyframes stroke {
+      0% {
+        stroke-dashoffset: 0;
+      }
+      100% {
+        stroke-dashoffset: 12;
+      }
+    }
+
     .word-2 svg {
-      width: 60vh;
-      stroke-width: 0.8;
+      width: 565px;
+      stroke-width: 0.3;
     }
     .word-3 svg {
-      width: 44vh;
+      width: 416px;
       stroke-width: 0.8;
     }
     .word-4 svg {
-      width: 60vh;
+      width: 565px;
       stroke-width: 1.0;
     }
 
@@ -140,7 +171,7 @@
       --mask-start-end: 100%;
       --mask-end-start: 100%;
       --mask-end-end: 100%;
-      --mask-weight: 5%;
+      --mask-weight: 20%;
       --mask-value: linear-gradient(
         180deg,
         transparent 0%,
@@ -158,40 +189,30 @@
       mask-image: var(--mask-value);
 
       --offset: 0%;
-      transform: translateX(var(--offset));
-      transition: 0.3s transform;
+      transform: translate(var(--offset), var(--offset));
+      transition: 0.1s linear transform;
     }
 
     .word-2 svg:nth-child(1) {
       position: relative;
     }
 
-    /* contacts */
-
-    #contacts {
-      border-left: 0.3em solid #fff;
-      padding-left: 0.5em;
-      margin-top: 1em;
-      overflow: scroll;
-    }
-
     /* summary */
 
     #summary {
-      padding: var(--safe-padding);
-      padding-top: 0;
-
-      display: flex;
-      flex-direction: column;
+      padding: 0
+               0
+               calc(var(--default-padding) + env(safe-area-inset-bottom))
+               calc(var(--default-padding) + env(safe-area-inset-left));
     }
 
     #summary section {
-      margin-top: var(--default-padding);
+      margin-top: 1em;
       padding-left: 0.5em;
       border-left: 0.3em solid #fff;
 
       mix-blend-mode: difference;
-      overflow: scroll;
+      overflow-x: scroll;
     }
 
     #summary section:first-child {
@@ -199,19 +220,25 @@
     }
 
     /* medium layout */
-    @media (max-width: 135vh) {
+    @media (max-width: 1400px) {
+      .word-1 svg, .word-2 svg, .word-4 svg {
+        width: 40lvw;
+      }
+      .word-3 svg {
+        width: 29.3lvw;
+      }
+    }
+    
+    /* narrow layout */
+    @media (max-width: 800px) {
       .word {
         display: block;
       }
-    }
-
-    /* narrow layout */
-    @media (max-width: 78vh) {
       .word-1 svg, .word-2 svg, .word-4 svg {
-        width: 100%;
+        width: 93%;
       }
       .word-3 svg {
-        width: calc(100% - 20vw);
+        width: calc(93% - 20lvw);
       }
     }
   </style>
@@ -236,103 +263,105 @@
     </svg>
   </section>
 
-  <section id="cover">
-    <section id="hero">
-      <div class="row">
-        <div class="word word-1">
-          <svg viewBox="0 0 86.3 18">
-            <g>
-              <path d="m 22.456078,3.9512165 c -2.853656,0 -4.807313,1.317072 -6.278043,3.3804848 -0.899999,-2.414632 -3.007315,-3.3804848 -5.334142,-3.3804848 -2.5463392,0 -4.3902401,1.0536576 -5.7951169,2.7658512 V 4.3902405 H 0 V 17.560961 h 5.0487761 v -6.475604 c 0,-2.2170716 1.6243888,-2.9634124 3.5341433,-2.9634124 2.0414616,0 3.0292656,0.7463408 3.0292656,2.9634124 v 6.475604 h 5.048776 v -6.475604 c 0,-2.2170716 1.624389,-2.9634124 3.534143,-2.9634124 2.041462,0 3.029266,0.7463408 3.029266,2.9634124 v 6.475604 h 5.048776 v -7.265848 c 0,-4.6097517 -2.699997,-6.3438965 -5.817068,-6.3438965 z" />
-              <path d="m 39.747486,3.9512165 c -3.424388,0 -6.497556,0.4829264 -9.351212,1.1195112 l 0.702439,3.4463385 c 3.11707,-0.7243896 5.356092,-1.0536577 7.704871,-1.0536577 2.304876,0 3.951216,0.4609753 4.082923,2.2829249 -1.712193,-0.3512192 -3.753655,-0.658536 -5.992678,-0.658536 -3.621948,0 -7.573164,0.8999992 -7.573164,4.4999956 0,3.117071 2.634144,4.19268 6.080483,4.19268 2.239022,0 5.136581,-0.526829 7.485359,-1.975608 v 1.756096 h 5.048776 V 10.821942 C 47.891381,5.7951173 45.257237,3.9512165 39.747486,3.9512165 Z M 37.135293,14.268281 c -1.887804,0 -2.54634,-0.285366 -2.54634,-1.031707 0,-0.790243 0.834146,-1.075609 3.051217,-1.075609 1.690243,0 3.556095,0.197561 5.246337,0.439024 v 1.009756 c -1.448779,0.241463 -4.170728,0.658536 -5.751214,0.658536 z" />
-              <path d="M 61.032294,4.3902405 54.578641,9.2195046 V 3.8146973e-7 H 49.529865 V 17.560961 h 5.048776 v -2.91951 l 3.051217,-2.217071 4.763411,5.136581 h 6.278043 l -7.50731,-7.7048716 7.50731,-5.4658489 z" />
-              <path d="m 77.30023,14.268281 c -2.656095,0 -4.302435,-0.54878 -4.653654,-2.458535 h 13.631695 c 0,-5.3560927 -3.731704,-7.8585295 -9.373162,-7.8585295 -5.4878,0 -9.373163,2.3707296 -9.373163,7.0243845 0,4.653654 3.643899,7.024384 9.570724,7.024384 5.531702,0 8.187797,-1.887803 9.065845,-5.158532 h -4.93902 c -0.439024,0.856096 -1.448779,1.426828 -3.929265,1.426828 z M 76.905109,7.2438965 c 2.173169,0 3.578045,0.5487801 4.148777,2.0634129 h -8.231701 c 0.54878,-1.5146328 1.953657,-2.0634129 4.082924,-2.0634129 z" />
-            </g>
-          </svg>
+  <main>
+    <section id="cover">
+      <section id="hero">
+        <div class="row">
+          <div class="word word-1">
+            <svg viewBox="0 0 86.3 18">
+              <g>
+                <path d="m 22.456078,3.9512165 c -2.853656,0 -4.807313,1.317072 -6.278043,3.3804848 -0.899999,-2.414632 -3.007315,-3.3804848 -5.334142,-3.3804848 -2.5463392,0 -4.3902401,1.0536576 -5.7951169,2.7658512 V 4.3902405 H 0 V 17.560961 h 5.0487761 v -6.475604 c 0,-2.2170716 1.6243888,-2.9634124 3.5341433,-2.9634124 2.0414616,0 3.0292656,0.7463408 3.0292656,2.9634124 v 6.475604 h 5.048776 v -6.475604 c 0,-2.2170716 1.624389,-2.9634124 3.534143,-2.9634124 2.041462,0 3.029266,0.7463408 3.029266,2.9634124 v 6.475604 h 5.048776 v -7.265848 c 0,-4.6097517 -2.699997,-6.3438965 -5.817068,-6.3438965 z" />
+                <path d="m 39.747486,3.9512165 c -3.424388,0 -6.497556,0.4829264 -9.351212,1.1195112 l 0.702439,3.4463385 c 3.11707,-0.7243896 5.356092,-1.0536577 7.704871,-1.0536577 2.304876,0 3.951216,0.4609753 4.082923,2.2829249 -1.712193,-0.3512192 -3.753655,-0.658536 -5.992678,-0.658536 -3.621948,0 -7.573164,0.8999992 -7.573164,4.4999956 0,3.117071 2.634144,4.19268 6.080483,4.19268 2.239022,0 5.136581,-0.526829 7.485359,-1.975608 v 1.756096 h 5.048776 V 10.821942 C 47.891381,5.7951173 45.257237,3.9512165 39.747486,3.9512165 Z M 37.135293,14.268281 c -1.887804,0 -2.54634,-0.285366 -2.54634,-1.031707 0,-0.790243 0.834146,-1.075609 3.051217,-1.075609 1.690243,0 3.556095,0.197561 5.246337,0.439024 v 1.009756 c -1.448779,0.241463 -4.170728,0.658536 -5.751214,0.658536 z" />
+                <path d="M 61.032294,4.3902405 54.578641,9.2195046 V 3.8146973e-7 H 49.529865 V 17.560961 h 5.048776 v -2.91951 l 3.051217,-2.217071 4.763411,5.136581 h 6.278043 l -7.50731,-7.7048716 7.50731,-5.4658489 z" />
+                <path d="m 77.30023,14.268281 c -2.656095,0 -4.302435,-0.54878 -4.653654,-2.458535 h 13.631695 c 0,-5.3560927 -3.731704,-7.8585295 -9.373162,-7.8585295 -5.4878,0 -9.373163,2.3707296 -9.373163,7.0243845 0,4.653654 3.643899,7.024384 9.570724,7.024384 5.531702,0 8.187797,-1.887803 9.065845,-5.158532 h -4.93902 c -0.439024,0.856096 -1.448779,1.426828 -3.929265,1.426828 z M 76.905109,7.2438965 c 2.173169,0 3.578045,0.5487801 4.148777,2.0634129 h -8.231701 c 0.54878,-1.5146328 1.953657,-2.0634129 4.082924,-2.0634129 z" />
+              </g>
+            </svg>
+          </div>
+          <div class="word word-2">
+            <svg viewBox="0 0 92.6 18">
+              <g>
+                <path d="m 11.15121,3.9512165 c -2.392681,0 -4.7634107,0.7463408 -6.1024339,2.7878024 V 3.8146973e-7 H 0 V 17.560961 h 5.0487761 v -2.348779 c 1.3390232,2.041462 3.7097529,2.787803 6.1024339,2.787803 3.402436,0 7.199994,-1.712194 7.199994,-7.024384 0,-5.3121909 -3.797558,-7.0243845 -7.199994,-7.0243845 z M 9.0658458,13.829257 c -2.6780465,0 -4.0170697,-0.921951 -4.0170697,-2.853656 0,-1.931706 1.3390232,-2.8536564 4.0170697,-2.8536564 2.6780462,0 4.0170692,0.9219504 4.0170692,2.8536564 0,1.931705 -1.339023,2.853656 -4.0170692,2.853656 z" />
+                <path d="m 29.961709,3.9512165 c -2.326827,0 -4.01707,0.8999992 -5.399995,3.29268 V 4.3902405 H 19.512938 V 17.560961 h 5.048776 v -6.453653 c 1.821949,-2.3268274 3.687801,-2.7658514 5.202434,-2.7658514 1.075609,0 1.953657,0.1317072 3.402436,0.658536 V 4.6097525 C 32.090975,4.1487773 31.190976,3.9512165 29.961709,3.9512165 Z" />
+                <path d="m 43.681929,14.268281 c -2.656095,0 -4.302435,-0.54878 -4.653655,-2.458535 H 52.65997 c 0,-5.3560927 -3.731704,-7.8585295 -9.373163,-7.8585295 -5.4878,0 -9.373162,2.3707296 -9.373162,7.0243845 0,4.653654 3.643899,7.024384 9.570723,7.024384 5.531703,0 8.187798,-1.887803 9.065846,-5.158532 h -4.93902 c -0.439024,0.856096 -1.448779,1.426828 -3.929265,1.426828 z M 43.286807,7.2438965 c 2.173169,0 3.578046,0.5487801 4.148777,2.0634129 h -8.2317 c 0.54878,-1.5146328 1.953657,-2.0634129 4.082923,-2.0634129 z" />
+                <path d="m 63.681907,3.9512165 c -3.424387,0 -6.497555,0.4829264 -9.351211,1.1195112 l 0.702438,3.4463385 c 3.117071,-0.7243896 5.356093,-1.0536577 7.704871,-1.0536577 2.304877,0 3.951217,0.4609753 4.082924,2.2829249 -1.712194,-0.3512192 -3.753656,-0.658536 -5.992678,-0.658536 -3.621948,0 -7.573164,0.8999992 -7.573164,4.4999956 0,3.117071 2.634144,4.19268 6.080482,4.19268 2.239023,0 5.136581,-0.526829 7.48536,-1.975608 v 1.756096 h 5.048776 V 10.821942 C 71.825802,5.7951173 69.191658,3.9512165 63.681907,3.9512165 Z M 61.069714,14.268281 c -1.887803,0 -2.546339,-0.285366 -2.546339,-1.031707 0,-0.790243 0.834146,-1.075609 3.051217,-1.075609 1.690242,0 3.556094,0.197561 5.246337,0.439024 v 1.009756 c -1.448779,0.241463 -4.170728,0.658536 -5.751215,0.658536 z" />
+                <path d="M 84.966716,4.3902405 78.513063,9.2195046 V 3.8146973e-7 H 73.464287 V 17.560961 h 5.048776 v -2.91951 l 3.051217,-2.217071 4.76341,5.136581 h 6.278044 L 85.098423,9.8560894 92.605734,4.3902405 Z" />
+              </g>
+            </svg>
+          </div>
         </div>
-        <div class="word word-2">
-          <svg viewBox="0 0 92.6 18">
-            <g>
-              <path d="m 11.15121,3.9512165 c -2.392681,0 -4.7634107,0.7463408 -6.1024339,2.7878024 V 3.8146973e-7 H 0 V 17.560961 h 5.0487761 v -2.348779 c 1.3390232,2.041462 3.7097529,2.787803 6.1024339,2.787803 3.402436,0 7.199994,-1.712194 7.199994,-7.024384 0,-5.3121909 -3.797558,-7.0243845 -7.199994,-7.0243845 z M 9.0658458,13.829257 c -2.6780465,0 -4.0170697,-0.921951 -4.0170697,-2.853656 0,-1.931706 1.3390232,-2.8536564 4.0170697,-2.8536564 2.6780462,0 4.0170692,0.9219504 4.0170692,2.8536564 0,1.931705 -1.339023,2.853656 -4.0170692,2.853656 z" />
-              <path d="m 29.961709,3.9512165 c -2.326827,0 -4.01707,0.8999992 -5.399995,3.29268 V 4.3902405 H 19.512938 V 17.560961 h 5.048776 v -6.453653 c 1.821949,-2.3268274 3.687801,-2.7658514 5.202434,-2.7658514 1.075609,0 1.953657,0.1317072 3.402436,0.658536 V 4.6097525 C 32.090975,4.1487773 31.190976,3.9512165 29.961709,3.9512165 Z" />
-              <path d="m 43.681929,14.268281 c -2.656095,0 -4.302435,-0.54878 -4.653655,-2.458535 H 52.65997 c 0,-5.3560927 -3.731704,-7.8585295 -9.373163,-7.8585295 -5.4878,0 -9.373162,2.3707296 -9.373162,7.0243845 0,4.653654 3.643899,7.024384 9.570723,7.024384 5.531703,0 8.187798,-1.887803 9.065846,-5.158532 h -4.93902 c -0.439024,0.856096 -1.448779,1.426828 -3.929265,1.426828 z M 43.286807,7.2438965 c 2.173169,0 3.578046,0.5487801 4.148777,2.0634129 h -8.2317 c 0.54878,-1.5146328 1.953657,-2.0634129 4.082923,-2.0634129 z" />
-              <path d="m 63.681907,3.9512165 c -3.424387,0 -6.497555,0.4829264 -9.351211,1.1195112 l 0.702438,3.4463385 c 3.117071,-0.7243896 5.356093,-1.0536577 7.704871,-1.0536577 2.304877,0 3.951217,0.4609753 4.082924,2.2829249 -1.712194,-0.3512192 -3.753656,-0.658536 -5.992678,-0.658536 -3.621948,0 -7.573164,0.8999992 -7.573164,4.4999956 0,3.117071 2.634144,4.19268 6.080482,4.19268 2.239023,0 5.136581,-0.526829 7.48536,-1.975608 v 1.756096 h 5.048776 V 10.821942 C 71.825802,5.7951173 69.191658,3.9512165 63.681907,3.9512165 Z M 61.069714,14.268281 c -1.887803,0 -2.546339,-0.285366 -2.546339,-1.031707 0,-0.790243 0.834146,-1.075609 3.051217,-1.075609 1.690242,0 3.556094,0.197561 5.246337,0.439024 v 1.009756 c -1.448779,0.241463 -4.170728,0.658536 -5.751215,0.658536 z" />
-              <path d="M 84.966716,4.3902405 78.513063,9.2195046 V 3.8146973e-7 H 73.464287 V 17.560961 h 5.048776 v -2.91951 l 3.051217,-2.217071 4.76341,5.136581 h 6.278044 L 85.098423,9.8560894 92.605734,4.3902405 Z" />
-            </g>
-          </svg>
+        <div class="row">
+          <div class="word word-3">
+            <svg viewBox="0 0 63.2 18">
+              <g>
+                <path d="M 1.1467934e-6,13.26428 C 1.1467934e-6,16.864284 3.6428632,18 9.1500135,18 c 4.8642925,0 8.2928685,-0.835715 8.2928685,-4.58572 0,-3.407148 -3.021433,-3.6428622 -8.0785825,-4.0714342 C 6.0000092,9.064274 5.4642942,8.957131 5.4642942,8.2499872 c 0,-0.6214294 0.750001,-0.9642871 3.0857185,-0.9642871 2.2500033,0 3.3214333,0.3428577 3.3214333,1.3285733 H 17.01431 C 16.800024,5.3356975 13.157162,4.2856961 8.6571557,4.2856961 c -4.4785775,0 -8.33572555,0.8357154 -8.33572555,4.3071487 0,3.0000042 2.59286065,3.4714332 7.97143935,3.8571482 3.3000045,0.235714 4.0071485,0.278572 4.0071485,1.200001 0,0.792859 -0.492858,1.135716 -3.3642905,1.135716 -3.1071471,0 -3.7928623,-0.492858 -3.7928623,-1.52143 z" />
+                <path d="m 27.215363,18 c 6.107151,0 9.171441,-2.59286 9.171441,-6.857152 0,-4.2642913 -3.06429,-6.8571519 -9.171441,-6.8571519 -6.107151,0 -9.171441,2.5928606 -9.171441,6.8571519 0,4.264292 3.06429,6.857152 9.171441,6.857152 z m 0,-3.857148 c -2.721433,0 -4.028577,-0.900001 -4.028577,-3.000004 0,-2.1000026 1.307144,-3.0000038 4.028577,-3.0000038 2.721432,0 4.028576,0.9000012 4.028576,3.0000038 0,2.100003 -1.307144,3.000004 -4.028576,3.000004 z" />
+                <path d="m 46.964531,3.2142661 c 0.578572,0 1.050001,0.042857 2.485718,0.1500002 V 0.21426205 C 48.20739,0.06426184 46.921674,-2.3956299e-5 45.657386,-2.3956299e-5 c -4.200005,0 -6.171437,1.650002256299 -6.171437,4.221434256299 v 0.4928578 h -3.021432 v 3.6428621 h 3.021432 v 9.2142978 h 4.928579 V 8.3571302 h 5.035721 V 4.7142681 h -5.035721 c 0.04286,-1.0500014 0.557143,-1.500002 2.550003,-1.500002 z" />
+                <path d="m 63.136464,4.7142681 h -5.250007 v -3.642862 l -4.928578,1.285716 v 2.357146 h -2.592861 v 3.6428621 h 2.592861 V 13.56428 c 0,3.000004 1.971431,4.43572 5.742865,4.43572 1.692859,0 3.21429,-0.257143 4.43572,-0.535715 v -3.964291 c -1.478574,0.321429 -2.121432,0.428572 -3.278576,0.428572 -1.500002,0 -1.971431,-0.835715 -1.971431,-2.057145 V 8.3571302 h 5.250007 z" />
+              </g>
+            </svg>
+          </div>
+          <div class="word word-4">
+            <svg viewBox="0 0 113.5 18">
+              <g>
+                <path d="M 31.050002,13.049969 25.115627,0.56246948 H 17.550002 L 11.615627,13.049969 6.3843769,0.56246948 H 1.9073486e-6 L 7.0593769,17.437469 h 9.0000001 l 5.2875,-10.9968745 5.259375,10.9968745 h 9 L 42.665627,0.56246948 h -6.384375 z" />
+                <path d="m 56.590578,-3.0517578e-5 c -4.3875,0 -8.325,0.618749997578 -11.98125,1.434375017578 l 0.9,4.415625 c 3.99375,-0.928125 6.8625,-1.35 9.871875,-1.35 2.953125,0 5.0625,0.590625 5.23125,2.925 -2.19375,-0.45 -4.809375,-0.84375 -7.678125,-0.84375 -4.640625,0 -9.703125,1.153125 -9.703125,5.7656245 0,3.99375 3.375,5.371875 7.790625,5.371875 2.86875,0 6.58125,-0.675 9.590625,-2.53125 v 2.25 h 6.46875 V 8.8030945 C 67.024953,2.3624695 63.649953,-3.0517578e-5 56.590578,-3.0517578e-5 Z M 53.243703,13.218719 c -2.41875,0 -3.2625,-0.365625 -3.2625,-1.321875 0,-1.0125 1.06875,-1.378125 3.909375,-1.378125 2.165625,0 4.55625,0.253125 6.721875,0.5625 v 1.29375 c -1.85625,0.309375 -5.34375,0.84375 -7.36875,0.84375 z" />
+                <path d="m 83.383596,-3.0517578e-5 c -2.98125,0 -5.146875,1.153125017578 -6.91875,4.218750017578 V 0.56246948 h -6.46875 V 17.437469 h 6.46875 V 9.1687195 c 2.334375,-2.98125 4.725,-3.54375 6.665625,-3.54375 1.378125,0 2.503125,0.16875 4.359375,0.84375 V 0.84371948 C 86.111721,0.25309448 84.958596,-3.0517578e-5 83.383596,-3.0517578e-5 Z" />
+                <path d="m 101.99927,13.218719 c -3.403126,0 -5.512501,-0.703125 -5.962501,-3.15 h 17.465621 c 0,-6.8624995 -4.78125,-10.068749517578 -12.00937,-10.068749517578 -7.031251,0 -12.009376,3.037500017578 -12.009376,9.000000017578 0,5.9624995 4.66875,8.9999995 12.262496,8.9999995 7.0875,0 10.49063,-2.41875 11.61563,-6.609375 h -6.32813 c -0.5625,1.096875 -1.85625,1.828125 -5.03437,1.828125 z m -0.50625,-8.9999995 c 2.78437,0 4.58437,0.703125 5.31562,2.64375 H 96.261769 c 0.703125,-1.940625 2.503125,-2.64375 5.231251,-2.64375 z" />
+              </g>
+            </svg>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="word word-3">
-          <svg viewBox="0 0 63.2 18">
-            <g>
-              <path d="M 1.1467934e-6,13.26428 C 1.1467934e-6,16.864284 3.6428632,18 9.1500135,18 c 4.8642925,0 8.2928685,-0.835715 8.2928685,-4.58572 0,-3.407148 -3.021433,-3.6428622 -8.0785825,-4.0714342 C 6.0000092,9.064274 5.4642942,8.957131 5.4642942,8.2499872 c 0,-0.6214294 0.750001,-0.9642871 3.0857185,-0.9642871 2.2500033,0 3.3214333,0.3428577 3.3214333,1.3285733 H 17.01431 C 16.800024,5.3356975 13.157162,4.2856961 8.6571557,4.2856961 c -4.4785775,0 -8.33572555,0.8357154 -8.33572555,4.3071487 0,3.0000042 2.59286065,3.4714332 7.97143935,3.8571482 3.3000045,0.235714 4.0071485,0.278572 4.0071485,1.200001 0,0.792859 -0.492858,1.135716 -3.3642905,1.135716 -3.1071471,0 -3.7928623,-0.492858 -3.7928623,-1.52143 z" />
-              <path d="m 27.215363,18 c 6.107151,0 9.171441,-2.59286 9.171441,-6.857152 0,-4.2642913 -3.06429,-6.8571519 -9.171441,-6.8571519 -6.107151,0 -9.171441,2.5928606 -9.171441,6.8571519 0,4.264292 3.06429,6.857152 9.171441,6.857152 z m 0,-3.857148 c -2.721433,0 -4.028577,-0.900001 -4.028577,-3.000004 0,-2.1000026 1.307144,-3.0000038 4.028577,-3.0000038 2.721432,0 4.028576,0.9000012 4.028576,3.0000038 0,2.100003 -1.307144,3.000004 -4.028576,3.000004 z" />
-              <path d="m 46.964531,3.2142661 c 0.578572,0 1.050001,0.042857 2.485718,0.1500002 V 0.21426205 C 48.20739,0.06426184 46.921674,-2.3956299e-5 45.657386,-2.3956299e-5 c -4.200005,0 -6.171437,1.650002256299 -6.171437,4.221434256299 v 0.4928578 h -3.021432 v 3.6428621 h 3.021432 v 9.2142978 h 4.928579 V 8.3571302 h 5.035721 V 4.7142681 h -5.035721 c 0.04286,-1.0500014 0.557143,-1.500002 2.550003,-1.500002 z" />
-              <path d="m 63.136464,4.7142681 h -5.250007 v -3.642862 l -4.928578,1.285716 v 2.357146 h -2.592861 v 3.6428621 h 2.592861 V 13.56428 c 0,3.000004 1.971431,4.43572 5.742865,4.43572 1.692859,0 3.21429,-0.257143 4.43572,-0.535715 v -3.964291 c -1.478574,0.321429 -2.121432,0.428572 -3.278576,0.428572 -1.500002,0 -1.971431,-0.835715 -1.971431,-2.057145 V 8.3571302 h 5.250007 z" />
-            </g>
-          </svg>
-        </div>
-        <div class="word word-4">
-          <svg viewBox="0 0 113.5 18">
-            <g>
-              <path d="M 31.050002,13.049969 25.115627,0.56246948 H 17.550002 L 11.615627,13.049969 6.3843769,0.56246948 H 1.9073486e-6 L 7.0593769,17.437469 h 9.0000001 l 5.2875,-10.9968745 5.259375,10.9968745 h 9 L 42.665627,0.56246948 h -6.384375 z" />
-              <path d="m 56.590578,-3.0517578e-5 c -4.3875,0 -8.325,0.618749997578 -11.98125,1.434375017578 l 0.9,4.415625 c 3.99375,-0.928125 6.8625,-1.35 9.871875,-1.35 2.953125,0 5.0625,0.590625 5.23125,2.925 -2.19375,-0.45 -4.809375,-0.84375 -7.678125,-0.84375 -4.640625,0 -9.703125,1.153125 -9.703125,5.7656245 0,3.99375 3.375,5.371875 7.790625,5.371875 2.86875,0 6.58125,-0.675 9.590625,-2.53125 v 2.25 h 6.46875 V 8.8030945 C 67.024953,2.3624695 63.649953,-3.0517578e-5 56.590578,-3.0517578e-5 Z M 53.243703,13.218719 c -2.41875,0 -3.2625,-0.365625 -3.2625,-1.321875 0,-1.0125 1.06875,-1.378125 3.909375,-1.378125 2.165625,0 4.55625,0.253125 6.721875,0.5625 v 1.29375 c -1.85625,0.309375 -5.34375,0.84375 -7.36875,0.84375 z" />
-              <path d="m 83.383596,-3.0517578e-5 c -2.98125,0 -5.146875,1.153125017578 -6.91875,4.218750017578 V 0.56246948 h -6.46875 V 17.437469 h 6.46875 V 9.1687195 c 2.334375,-2.98125 4.725,-3.54375 6.665625,-3.54375 1.378125,0 2.503125,0.16875 4.359375,0.84375 V 0.84371948 C 86.111721,0.25309448 84.958596,-3.0517578e-5 83.383596,-3.0517578e-5 Z" />
-              <path d="m 101.99927,13.218719 c -3.403126,0 -5.512501,-0.703125 -5.962501,-3.15 h 17.465621 c 0,-6.8624995 -4.78125,-10.068749517578 -12.00937,-10.068749517578 -7.031251,0 -12.009376,3.037500017578 -12.009376,9.000000017578 0,5.9624995 4.66875,8.9999995 12.262496,8.9999995 7.0875,0 10.49063,-2.41875 11.61563,-6.609375 h -6.32813 c -0.5625,1.096875 -1.85625,1.828125 -5.03437,1.828125 z m -0.50625,-8.9999995 c 2.78437,0 4.58437,0.703125 5.31562,2.64375 H 96.261769 c 0.703125,-1.940625 2.503125,-2.64375 5.231251,-2.64375 z" />
-            </g>
-          </svg>
-        </div>
-      </div>
+      </section>
     </section>
+    
+    <section id="summary">
+      <section>
+          <p>김동성 ᛫ Dongsung (Donny) Kim ᛫ 🎗️🏳️‍⚧️🕯️</p>
+          <p><a href="https://bsky.app/profile/kiding.bsky.social">Bluesky</a> ᛫ <a href="https://twitter.com/kid1ng">Twitter</a> ᛫ <a href="https://github.com/kiding">GitHub</a> ᛫ <a href="https://kiding.medium.com">Medium</a> ᛫ <a href="https://www.linkedin.com/in/kiding/">LinkedIn</a></p>
+      </section>
 
-    <section id="contacts">
-        <p>김동성 ᛫ Dongsung (Donny) Kim ᛫ 🎗️🏳️‍⚧️🕯️</p>
-        <p><a href="https://bsky.app/profile/kiding.bsky.social">Bluesky</a> ᛫ <a href="https://twitter.com/kid1ng">Twitter</a> ᛫ <a href="https://github.com/kiding">GitHub</a> ᛫ <a href="https://kiding.medium.com">Medium</a> ᛫ <a href="https://www.linkedin.com/in/kiding/">LinkedIn</a></p>
-    </section>
-  </section>
+      <section>
+        <h1>Work Experience</h1>
+        <p>2024 - Present ᛫ <a href="https://securityoffice.io">Security Office</a> ᛫ Cybersecurity Expert</p>
+        <p>2022 - 2024 ᛫ <a href="https://truesec.com">Truesec</a> / Säkerhetskontoret ᛫ IT-Security Expert</p>
+        <p>2021 - 2022 ᛫ <a href="https://zent.kr">Z Enterprise</a> ᛫ Software Engineer</p>
+        <p>2019 - 2020 ᛫ <a href="https://ridicorp.com">RIDI Corp</a> ᛫ Software Engineer / Security Advisor</p>
+        <p>2018 - 2019 ᛫ <a href="https://move.is">Move, Inc</a> ᛫ Software Engineer</p>
+        <p>2016 - 2018 ᛫ <a href="https://hit.skku.edu">H.I.T. (Hackers In inTrusion) Lab</a> ᛫ Student Researcher</p>
+        <p>2012 - 2014 ᛫ Shakr Media ᛫ Engineer</p>
+        <p>2012 - 2012 ᛫ <a href="https://ag.co.kr">Ahn-graphics, Ltd.</a> ᛫ Engineering Intern</p>
+      </section>
 
-  <section id="summary">
-    <section>
-      <h1>Work Experience</h1>
-      <p>2024 - Present ᛫ <a href="https://securityoffice.io">Security Office</a> ᛫ Cybersecurity Expert</p>
-      <p>2022 - 2024 ᛫ <a href="https://truesec.com">Truesec</a> / Säkerhetskontoret ᛫ IT-Security Expert</p>
-      <p>2021 - 2022 ᛫ <a href="https://zent.kr">Z Enterprise</a> ᛫ Software Engineer</p>
-      <p>2019 - 2020 ᛫ <a href="https://ridicorp.com">RIDI Corp</a> ᛫ Software Engineer / Security Advisor</p>
-      <p>2018 - 2019 ᛫ <a href="https://move.is">Move, Inc</a> ᛫ Software Engineer</p>
-      <p>2016 - 2018 ᛫ <a href="https://hit.skku.edu">H.I.T. (Hackers In inTrusion) Lab</a> ᛫ Student Researcher</p>
-      <p>2012 - 2014 ᛫ Shakr Media ᛫ Engineer</p>
-      <p>2012 - 2012 ᛫ <a href="https://ag.co.kr">Ahn-graphics, Ltd.</a> ᛫ Engineering Intern</p>
-    </section>
+      <section>
+        <h1>Security Research</h1>
+        <p>2023 ᛫ <a href="https://youtu.be/98hacQ1zpgQ">DEF CON 31</a> ᛫ Your Clocks Have Ears! Timing-Based Browser-Based Local Network Port Scanner</p>
+        <p>2022 ᛫ <a href="https://youtu.be/bhthwXhGZDY">DEF CON 30</a> ᛫ The CSRF Resurrections! Starring the Unholy Trinity: Service Worker of PWA, SameSite of HTTP Cookie, and Fetch ᛫ CVE-2022-0117, CVE-2022-45410</p>
+        <p>2020 ᛫ <a href="https://kiding.medium.com/macos-ocsp-telemetry-explainer-and-mitigation-9bc243928f4c">macOS OCSP “telemetry”—Explainer and Mitigation with Noise</a></p>
+        <p>2018 ᛫ <a href="https://youtu.be/3IdgBwbOT-g">DEF CON 26</a> ᛫ Your Watch Can Watch You! Gear Up for the Broken Privilege Pitfalls in the Samsung Gear Smartwatch ᛫ CVE-2018-16262, CVE-2018-16263, CVE-2018-16264, CVE-2018-16265, CVE-2018-16266, CVE-2018-16267, CVE-2018-16268, CVE-2018-16269, CVE-2018-16270, CVE-2018-16271, CVE-2018-16272</p>
+        <p>2015 ᛫ <a href="https://support.apple.com/en-us/HT205033">Private Browsing History Leak in Apple Safari</a> ᛫ CVE-2015-3754</p>
+      </section>
 
-    <section>
-      <h1>Security Research</h1>
-      <p>2023 ᛫ <a href="https://youtu.be/98hacQ1zpgQ">DEF CON 31</a> ᛫ Your Clocks Have Ears! Timing-Based Browser-Based Local Network Port Scanner</p>
-      <p>2022 ᛫ <a href="https://youtu.be/bhthwXhGZDY">DEF CON 30</a> ᛫ The CSRF Resurrections! Starring the Unholy Trinity: Service Worker of PWA, SameSite of HTTP Cookie, and Fetch ᛫ CVE-2022-0117, CVE-2022-45410</p>
-      <p>2020 ᛫ <a href="https://kiding.medium.com/macos-ocsp-telemetry-explainer-and-mitigation-9bc243928f4c">macOS OCSP “telemetry”—Explainer and Mitigation with Noise</a></p>
-      <p>2018 ᛫ <a href="https://youtu.be/3IdgBwbOT-g">DEF CON 26</a> ᛫ Your Watch Can Watch You! Gear Up for the Broken Privilege Pitfalls in the Samsung Gear Smartwatch ᛫ CVE-2018-16262, CVE-2018-16263, CVE-2018-16264, CVE-2018-16265, CVE-2018-16266, CVE-2018-16267, CVE-2018-16268, CVE-2018-16269, CVE-2018-16270, CVE-2018-16271, CVE-2018-16272</p>
-      <p>2015 ᛫ <a href="https://support.apple.com/en-us/HT205033">Private Browsing History Leak in Apple Safari</a> ᛫ CVE-2015-3754</p>
+      <section>
+        <h1>Software Development</h1>
+        <p>2022 - Present ᛫ <a href="https://github.com/kiding/SokIM">Sok Input Method</a></p>
+        <p>2014 - 2015 ᛫ <a href="http://beotsmusic.kiding.net">BeotsMusic</a></p>
+        <p>2008 - 2013 ᛫ <a href="https://web.archive.org/web/20130217024529/http://www.appleforum.com/application/55873-국내-음악-가사를-찾아주는-가사수작을-소개합니다.html">Lyrichand</a></p>
+        <p>2008 - 2011 ᛫ <a href="https://web.archive.org/web/20140724184136/http://www.appleforum.com/application/54905-자막도-넣어주는-아이팟-인코더-팟벗.html">PodBuddy</a></p>
+      </section>
     </section>
-
-    <section>
-      <h1>Software Development</h1>
-      <p>2022 - Present ᛫ <a href="https://github.com/kiding/SokIM">Sok Input Method</a></p>
-      <p>2014 - 2015 ᛫ <a href="http://beotsmusic.kiding.net">BeotsMusic</a></p>
-      <p>2008 - 2013 ᛫ <a href="https://web.archive.org/web/20130217024529/http://www.appleforum.com/application/55873-국내-음악-가사를-찾아주는-가사수작을-소개합니다.html">Lyrichand</a></p>
-      <p>2008 - 2011 ᛫ <a href="https://web.archive.org/web/20140724184136/http://www.appleforum.com/application/54905-자막도-넣어주는-아이팟-인코더-팟벗.html">PodBuddy</a></p>
-    </section>
-  </section>
+  </main>
 
   <script>
-    const SLICE_START = 40.0, SLICE_END = 78.9,
-          NUM_SVG_CLONE = 30,
-          MIN_OFFSET_BOUND = 3, MAX_OFFSET_BOUND = 10;
+    function randomizeSeed() {
+      document.getElementById("noise").setAttribute("seed", Math.floor(Math.random() * 60));
+    }
 
-    function randomize() {
-      // Random seed for background
-      const noiseEl = document.getElementById("noise");
-      noiseEl.setAttribute("seed", Math.floor(Math.random() * 60));
+    const SLICE_START = 0, SLICE_END = 100;
+    const NUM_SVG_CLONE = 20;
+    const MIN_OFFSET_BOUND = 2, MAX_OFFSET_BOUND = 9;
+    const MIN_WEIGHT_BOUND = 10, MAX_WEIGHT_BOUND = 30;
 
-      // Glitch effect for all .word-2 svgs
+    function randomizeMask() {
       for (const divEl of document.querySelectorAll(".word-2")) {
         const childrenEls = divEl.children;
 
@@ -342,30 +371,38 @@
         baseSVGEl.style.setProperty("--mask-end-start", `${SLICE_END}%`);
         baseSVGEl.style.setProperty("--mask-end-end", `100%`);
 
-        const offsetBound = Math.random() * (MAX_OFFSET_BOUND - MIN_OFFSET_BOUND) + MIN_OFFSET_BOUND;
-        const middlePoint = (SLICE_START + SLICE_END) / 2;
         const eachSliceSize = (SLICE_END - SLICE_START) / (NUM_SVG_CLONE * 2);
+        const middlePoint = (SLICE_START + SLICE_END) / 2;
+        const offsetBound = Math.random() * (MAX_OFFSET_BOUND - MIN_OFFSET_BOUND) + MIN_OFFSET_BOUND;
 
         for (let i = 1; i <= NUM_SVG_CLONE; i++) {
-          const offset = offsetBound / NUM_SVG_CLONE * i;
-
           const maskStartStart = SLICE_START + eachSliceSize * (i - 1);
           const maskStartEnd = SLICE_START + eachSliceSize * i;
           const maskEndStart = middlePoint + (middlePoint - maskStartEnd);
           const maskEndEnd = middlePoint + (middlePoint - maskStartStart);
+          const maskWeight = Math.random() * (MAX_WEIGHT_BOUND - MIN_WEIGHT_BOUND) + MIN_WEIGHT_BOUND;
+          const offset = offsetBound / NUM_SVG_CLONE * i + Math.random() * 3;
 
           const sliceSVGEl = childrenEls[i] ?? baseSVGEl.cloneNode(true);
-          sliceSVGEl.style.setProperty("--offset", `${offset}%`);
           sliceSVGEl.style.setProperty("--mask-start-start", `${maskStartStart - 0.1}%`);
           sliceSVGEl.style.setProperty("--mask-start-end", `${maskStartEnd + 0.1}%`);
           sliceSVGEl.style.setProperty("--mask-end-start", `${maskEndStart - 0.1}%`);
           sliceSVGEl.style.setProperty("--mask-end-end", `${maskEndEnd + 0.1}%`);
+          sliceSVGEl.style.setProperty("--mask-weight", `${maskWeight}%`);
+          sliceSVGEl.style.setProperty("--offset", `${offset}%`);
           childrenEls[i] ?? divEl.appendChild(sliceSVGEl);
         }
       }
     }
 
-    window.addEventListener("DOMContentLoaded", () => requestAnimationFrame(randomize));
+    window.addEventListener("DOMContentLoaded", () => {
+      requestAnimationFrame(() => {
+        randomizeSeed();
+        randomizeMask();
+        document.body.style.setProperty("visibility", "visible");
+      });
+      setInterval(() => requestAnimationFrame(randomizeMask), 100);
+    });
   </script>
 </body>
 </html>
